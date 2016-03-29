@@ -33,7 +33,7 @@ public interface ILoggerDependency
 string GetCurrentDirectory(); 
 string GetDirectoryByLoggerName(string loggerName); 
 string DefaultLogger { get; } 	
-}````
+}```
     
 #### Реализация простой заглушки - `stub`
 
