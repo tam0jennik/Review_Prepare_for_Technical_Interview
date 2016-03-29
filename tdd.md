@@ -27,25 +27,30 @@
 ## Примеры использования Moq библиотеки.
 Библиотека Moq не делает особой разницы между **stub** и **mock**
 Рассмотрим интерфейс, котороый нужно будет протестировать
+
 ```C#
 public interface ILoggerDependency 
 { 
 string GetCurrentDirectory(); 
 string GetDirectoryByLoggerName(string loggerName); 
 string DefaultLogger { get; } 	
-}```
+}
+```
     
 #### Реализация простой заглушки - `stub`
-
-	ILoggerDependency loggerDependency =
-   		 Mock.Of<ILoggerDependency>(d => d.GetCurrentDirectory() == "D:\\Temp")
-	var currentDirectory = loggerDependency.GetCurrentDirectory();
+```C#
+ILoggerDependency loggerDependency =
+	 Mock.Of<ILoggerDependency>(d => d.GetCurrentDirectory() == "D:\\Temp")
+var currentDirectory = loggerDependency.GetCurrentDirectory();
  
-	Assert.That(currentDirectory, Is.EqualTo("D:\\Temp"));
-    
+Assert.That(currentDirectory, Is.EqualTo("D:\\Temp"));
+```
+
 Простой объект с простым поведением. 
 
 #### `stub` который зависит от входного параметра.
+
+```C#
 	Mock<ILoggerDependency> stub = new Mock<ILoggerDependency>();
  
 	stub.Setup(ld => ld.GetDirectoryByLoggerName(It.IsAny<string>()))
@@ -56,10 +61,12 @@ string DefaultLogger { get; }
 	string directory = logger.GetDirectoryByLoggerName(loggerName);
  
 	Assert.That(directory, Is.EqualTo("C:\\" + loggerName));
-    
+```
+
 это все еще `stub`, хотя и содержит некоторую логику.
 
 #### Проверка поведения.
+```C#
 	public interface ILogWriter
 	{
     	string GetLogger();
@@ -87,18 +94,24 @@ string DefaultLogger { get; }
 	logger.WriteLine("Hello, logger!");
 
 	mock.Verify(lw => lw.Write(It.IsAny<string>()));
+	```
+	
 Таким образом мы проверяем, что метод Write вызвался с любым текстом на входе.
 
 Можно также проверить что метод был вызван с конкретной строкой на входе, например так:
-```mock.Verify(lw => lw.Write("Hello, logger!"));``` 
+```C#
+mock.Verify(lw => lw.Write("Hello, logger!"));
+``` 
 
 или проверить что метод был вызван ровно один раз
 
-```mock.Verify(lw => lw.Write(It.IsAny<string>()),    Times.Once());```
+```C#
+mock.Verify(lw => lw.Write(It.IsAny<string>()),    Times.Once());
+```
 #### Mock setup
 
 Обычно применяется, когда необходимо провести какую-то групповую проверку нескольких условий. 
-
+```C#
 	var mock = new Mock<ILogWriter>();
 	mock.Setup(lw => lw.Write(It.IsAny<string>()));
 	mock.Setup(lw => lw.SetLogger(It.IsAny<string>()));
@@ -107,7 +120,7 @@ string DefaultLogger { get; }
 	logger.WriteLine("Hello, logger!");
  
 	mock.Verify();
-    
+    ```
 Метод `Verify` не принимает никаких параметров, потому как все параметры уже установлены через `Setup`.
 
 # CI
