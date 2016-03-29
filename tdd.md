@@ -18,6 +18,7 @@
 - xUnit, MS Unit Testing Framework, и пр.  Разница между ними невелика. Служат для тестирования модулей приложения.
 - stub - это скорее заглушки для реально существующих объектов, не содержат логики.
 - Mock - это более интеллектуальная заглушка, можно указать поведение объекта, например что этот метод должен быть вызван более двух раз.
+
 #### Какой код обычно тестируется Юнит тестами?
 - в первую очередь тестируются нетривиальные участки кода.
 - участки кода которые часто изменяются.
@@ -26,13 +27,13 @@
 ## Примеры использования Moq библиотеки.
 Библиотека Moq не делает особой разницы между **stub** и **mock**
 Рассмотрим интерфейс, котороый нужно будет протестировать
-
-	public interface ILoggerDependency 
-	{ 
-    	string GetCurrentDirectory(); 
-    	string GetDirectoryByLoggerName(string loggerName); 
-    	string DefaultLogger { get; } 	
-	}
+```C#
+public interface ILoggerDependency 
+{ 
+string GetCurrentDirectory(); 
+string GetDirectoryByLoggerName(string loggerName); 
+string DefaultLogger { get; } 	
+}````
     
 #### Реализация простой заглушки - `stub`
 
