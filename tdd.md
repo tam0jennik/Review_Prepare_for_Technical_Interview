@@ -108,6 +108,7 @@ mock.Verify(lw => lw.Write("Hello, logger!"));
 ```C#
 mock.Verify(lw => lw.Write(It.IsAny<string>()),    Times.Once());
 ```
+
 #### Mock setup
 
 Обычно применяется, когда необходимо провести какую-то групповую проверку нескольких условий. 
@@ -120,7 +121,8 @@ mock.Verify(lw => lw.Write(It.IsAny<string>()),    Times.Once());
 	logger.WriteLine("Hello, logger!");
  
 	mock.Verify();
-    ```
+```
+
 Метод `Verify` не принимает никаких параметров, потому как все параметры уже установлены через `Setup`.
 
 # CI
